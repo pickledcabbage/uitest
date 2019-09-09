@@ -5,7 +5,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { borderRadius } from '@material-ui/system';
 import './StatusCard.css';
 import { Icon } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -13,6 +14,12 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 
 
 // Main status card at the top of the app. Gonna be a copy and paste shit show here.
+
+const StyledCard = withStyles({
+  root: {
+    borderRadius: 15
+  }
+})(Card);
 
 const useStyles = makeStyles({
     card: {
@@ -33,7 +40,6 @@ const useStyles = makeStyles({
 
 class StatusCard extends React.Component {
 
-    
     constructor(props) {
         super(props);
         this.classes = makeStyles({
@@ -41,6 +47,7 @@ class StatusCard extends React.Component {
               minWidth: 50,
               borderRadius: 50,
               background: '#000FFF',
+              borderRadius: '50%',
             },
             bullet: {
               display: 'inline-block',
@@ -60,7 +67,7 @@ class StatusCard extends React.Component {
     render() {
         return (
             <div className='status-card'>
-                <Card className={this.classes.card}>
+                <StyledCard className={this.classes.card}>
                     <CardContent>
                         <Typography className={this.classes.title} color="textSecondary" gutterBottom>
                             Status
@@ -79,7 +86,7 @@ class StatusCard extends React.Component {
                             Start
                         </IconButton>
                     </CardActions>
-                </Card>
+                </StyledCard>
             </div>
         )
     }
