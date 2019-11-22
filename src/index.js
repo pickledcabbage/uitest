@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import CardList from './components/CardList';
+import AnotherApp from './AnotherApp'
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<CardList />, document.getElementById('root'));
+ReactDOM.render(<AnotherApp />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

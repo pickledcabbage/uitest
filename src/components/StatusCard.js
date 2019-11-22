@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,80 +12,103 @@ import './StatusCard.css';
 import { Icon } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import Axios from 'axios';
 
 
 // Main status card at the top of the app. Gonna be a copy and paste shit show here.
 
 const StyledCard = withStyles({
   root: {
-    borderRadius: 15
+    borderRadius: 15,
+    maxWidth: 500,
+    marginBottom: 25,
   }
 })(Card);
 
-const useStyles = makeStyles({
-    card: {
-      minWidth: 275,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },
-  });
+const StyledIconButton = withStyles({
+  root: {
+    borderRadius: 15
+  }
+})(IconButton)
 
 class StatusCard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.classes = makeStyles({
-            card: {
-              minWidth: 50,
-              borderRadius: 50,
-              background: '#000FFF',
-              borderRadius: '50%',
-            },
-            bullet: {
-              display: 'inline-block',
-              margin: '0 2px',
-              transform: 'scale(0.8)',
-            },
-            title: {
-              fontSize: 14,
-            },
-            pos: {
-              marginBottom: 12,
-            },
-          });
-        this.bull = <span className={this.classes.bullet}>•</span>;
+        this.state = {
+          user: 'A-user',
+          userState: 'IDLE',
+          court: ''
+        }
+        this.idleState = this.idleState.bind(this);
+        this.inQueueState = this.inQueueState.bind(this);
+        this.onCourtState = this.onCourtState.bind(this);
+        this.sendDropRequest = this.sendDropRequest.bind(this);
+        this.getStatus = this.getStatus.bind(this);
+    }
+
+    idleState() {
+      return "Hi, " + this.state.user + ", what would you like to do?"
+    }
+
+    inQueueState() {
+
+    }
+
+    onCourtState() {
+      return this.state.user + " you're up on " + this.state.court +"!"
+    }
+
+    getStatus(event) {
+      axios.post('http://localhost:5000/playerstatus', JSON.stringify({ user: this.state.user}), {headers: {'Content-Type': 'application/json'}})
+      .then(res => {
+        console.log(res)
+        this.setState({
+          userState: res.data.status,
+          court: res.data.court
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      });
+    }
+
+    sendDropRequest(event) {
+      axios.post('http://localhost:5000/drop', JSON.stringify({ user: this.state.user}), {headers: {'Content-Type': 'application/json'}})
+    }
+
+    componentDidMount() {
+      this.getStatus()
     }
 
     render() {
+      let message = this.idleState()
+      if (this.state.userState === "IN_QUEUE") {
+        message = this.inQueueState()
+      }
+      else if (this.state.userState === "ON_COURT") {
+        message = this.onCourtState()
+      }
         return (
             <div className='status-card'>
-                <StyledCard className={this.classes.card}>
+                <StyledCard className='styled-card'>
                     <CardContent>
-                        <Typography className={this.classes.title} color="textSecondary" gutterBottom>
+                        <Typography color="textSecondary" gutterBottom>
                             Status
                         </Typography>
                         <Typography variant="h5" component="h2">
-                            You're up next on Court 1!
+                            {message}
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <IconButton color="secondary" size="large">
+                        <StyledIconButton color="secondary" onClick={this.sendDropRequest}>
                             <CloseIcon />
                             Drop
-                        </IconButton>
-                        <IconButton variant='contained' color="primary" size="large">
+                        </StyledIconButton>
+                        <StyledIconButton variant='contained' color="primary">
                             <KeyboardArrowRightIcon />
                             Start
-                        </IconButton>
+                        </StyledIconButton>
                     </CardActions>
                 </StyledCard>
             </div>
