@@ -15,41 +15,59 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 
 const StyledCard = withStyles({
     root: {
-      borderRadius: 15,
-      maxWidth: 500,
-      marginTop: 25,
-      marginBottom: 25
+        borderRadius: 15,
+        maxWidth: 500,
+        marginTop: 25,
+        marginBottom: 25
     }
-  })(Card);
+})(Card);
 
 class CourtCard extends React.Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
-        console.log(props.players)
-        
+        this.courtEmpty = this.courtEmpty.bind(this);
+        this.courtWithPlayers = this.courtWithPlayers.bind(this);
+    }
+
+    courtWithPlayers() {
+        return <div>
+            <Typography variant="h5" component="h2">
+                {this.props.players[0] + " and " + this.props.players[1]}
+            </Typography>
+            <Typography variant="h6" component="h2">
+                vs.
+            </Typography>
+            <Typography variant="h5" component="h2">
+                {this.props.players[2] + " and " + this.props.players[3]}
+            </Typography>
+        </div>
+    }
+
+    courtEmpty() {
+        return <div>
+            <Typography variant="h4" component="h2">
+                Empty
+            </Typography>
+        </div>
     }
 
 
     render() {
+        var data = this.courtEmpty()
+        console.log(this.props.players.length)
+        if (this.props.players.length > 0) {
+            data = this.courtWithPlayers()
+        }
         return (
-                <StyledCard>
-                    <CardContent>
-                        <Typography color="textSecondary" gutterBottom>
-                            {this.props.name}
-                        </Typography>
-                        <Typography variant="h5" component="h2">
-                            {this.props.players[0] + " and " + this.props.players[1]}
-                        </Typography>
-                        <Typography variant="h6" component="h2">
-                            vs.
-                        </Typography>
-                        <Typography variant="h5" component="h2">
-                        {this.props.players[2] + " and " + this.props.players[3]}
-                        </Typography>
-                    </CardContent>
-                </StyledCard>
+            <StyledCard>
+                <CardContent>
+                    <Typography color="textSecondary" gutterBottom>
+                        {this.props.name + ": " + this.props.type}
+                    </Typography>
+                    {data}
+                </CardContent>
+            </StyledCard>
         )
     }
 }

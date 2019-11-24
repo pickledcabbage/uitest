@@ -11,6 +11,7 @@ import { borderRadius } from '@material-ui/system';
 import './StatusCard.css';
 import { Icon } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Axios from 'axios';
 
@@ -82,7 +83,7 @@ class StatusCard extends React.Component {
     }
 
     render() {
-      let message = this.idleState()
+      var message = this.idleState()
       if (this.state.userState === "IN_QUEUE") {
         message = this.inQueueState()
       }
@@ -108,6 +109,10 @@ class StatusCard extends React.Component {
                         <StyledIconButton variant='contained' color="primary">
                             <KeyboardArrowRightIcon />
                             Start
+                        </StyledIconButton>
+                        <StyledIconButton variant='contained' color="default">
+                            <QueryBuilderIcon />
+                            Queue Up
                         </StyledIconButton>
                     </CardActions>
                 </StyledCard>

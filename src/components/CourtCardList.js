@@ -32,7 +32,7 @@ class CourtCardList extends React.Component {
     render() {
         return (
             <div>
-                {this.state.courts.map((item) => <CourtCard key={item.id} name={item.name} players={item.players} />)}
+                {this.state.courts.map((item) => <CourtCard key={item.id} name={item.name} players={item.players} type={item.type} />)}
             </div>
         )
     }
