@@ -37,7 +37,7 @@ class StatusCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          user: 'A-user',
+          user: props.user,
           userState: 'IDLE',
           court: ''
         }

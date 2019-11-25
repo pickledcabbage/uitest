@@ -20,7 +20,7 @@ class CardList extends React.Component {
     render() {
         return (
             <div className='card-list-div'>
-                <StatusCard />
+                <StatusCard user={this.props.user}/>
                 <CourtCardList />
             </div>
         )
