@@ -18,7 +18,6 @@ class AnotherApp extends React.Component {
 
     printDataFromChild(event) {
         event.preventDefault()
-        const data = new FormData(event.target)
         this.setState({user: event.target['username'].value, loggedIn: true});
     }
 
